@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="eTaleemDB" Class="DatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=SHEHRYAR-PC;Initial Catalog=eTaleemDB;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="eTaleemDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblAssignment" Member="tblAssignments">
+    <Type Name="tblAssignment">
+      <Column Name="assignmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="assignmentTitle" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="assignmentQuestionStatement" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="assignmentStartDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="assignmentEndDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="teacherID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="assignmentMaximumMarks" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isGraded" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="isArchived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fileName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="tblAssignment_tblStudentAssignment" Member="tblStudentAssignments" ThisKey="assignmentID" OtherKey="assignmentID" Type="tblStudentAssignment" />
+      <Association Name="tblTeacher_tblAssignment" Member="tblTeacher" ThisKey="teacherID" OtherKey="teacherID" Type="tblTeacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUser" Member="tblUsers">
+    <Type Name="tblUser">
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="userEmail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="userPassword" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="userType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Association Name="tblUser_tblTeacher" Member="tblTeachers" ThisKey="userID" OtherKey="userID" Type="tblTeacher" />
+      <Association Name="tblUser_tblStudent" Member="tblStudents" ThisKey="userID" OtherKey="userID" Type="tblStudent" />
+      <Association Name="tblUser_tblNotification" Member="tblNotifications" ThisKey="userID" OtherKey="userID" Type="tblNotification" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblTeacher" Member="tblTeachers">
+    <Type Name="tblTeacher">
+      <Column Name="teacherID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="teacherFullName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="subjectCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblTeacher_tblAssignment" Member="tblAssignments" ThisKey="teacherID" OtherKey="teacherID" Type="tblAssignment" />
+      <Association Name="tblTeacher_tblStudentSubject" Member="tblStudentSubjects" ThisKey="teacherID" OtherKey="teacherID" Type="tblStudentSubject" />
+      <Association Name="tblUser_tblTeacher" Member="tblUser" ThisKey="userID" OtherKey="userID" Type="tblUser" IsForeignKey="true" />
+      <Association Name="tblSubject_tblTeacher" Member="tblSubject" ThisKey="subjectCode" OtherKey="subjectCode" Type="tblSubject" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSubject" Member="tblSubjects">
+    <Type Name="tblSubject">
+      <Column Name="subjectCode" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="subjectTitle" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="subjectGroup" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="subjectDescription" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="isVisible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tblSubject_tblTeacher" Member="tblTeachers" ThisKey="subjectCode" OtherKey="subjectCode" Type="tblTeacher" />
+      <Association Name="tblSubject_tblStudentSubject" Member="tblStudentSubjects" ThisKey="subjectCode" OtherKey="subjectCode" Type="tblStudentSubject" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblStudentSubject" Member="tblStudentSubjects">
+    <Type Name="tblStudentSubject">
+      <Column Name="studentSubjectID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="studentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="subjectCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="teacherID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isVisible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="joiningDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblSubject_tblStudentSubject" Member="tblSubject" ThisKey="subjectCode" OtherKey="subjectCode" Type="tblSubject" IsForeignKey="true" />
+      <Association Name="tblTeacher_tblStudentSubject" Member="tblTeacher" ThisKey="teacherID" OtherKey="teacherID" Type="tblTeacher" IsForeignKey="true" />
+      <Association Name="tblStudent_tblStudentSubject" Member="tblStudent" ThisKey="studentID" OtherKey="studentID" Type="tblStudent" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblStudent" Member="tblStudents">
+    <Type Name="tblStudent">
+      <Column Name="studentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="studentFullName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblStudent_tblStudentSubject" Member="tblStudentSubjects" ThisKey="studentID" OtherKey="studentID" Type="tblStudentSubject" />
+      <Association Name="tblStudent_tblStudentAssignment" Member="tblStudentAssignments" ThisKey="studentID" OtherKey="studentID" Type="tblStudentAssignment" />
+      <Association Name="tblUser_tblStudent" Member="tblUser" ThisKey="userID" OtherKey="userID" Type="tblUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblNotification" Member="tblNotifications">
+    <Type Name="tblNotification">
+      <Column Name="notificationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="notificationMessage" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="userID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="notificationDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="notificationType" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="notificationLink" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="isSeen" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="tblUser_tblNotification" Member="tblUser" ThisKey="userID" OtherKey="userID" Type="tblUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblStudentAssignment" Member="tblStudentAssignments">
+    <Type Name="tblStudentAssignment">
+      <Column Name="studentAssignmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="assignmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="studentAssignmentStatus" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="studentAssignmentMarks" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="studentAssignmentAnswer" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="studentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblAssignment_tblStudentAssignment" Member="tblAssignment" ThisKey="assignmentID" OtherKey="assignmentID" Type="tblAssignment" IsForeignKey="true" />
+      <Association Name="tblStudent_tblStudentAssignment" Member="tblStudent" ThisKey="studentID" OtherKey="studentID" Type="tblStudent" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

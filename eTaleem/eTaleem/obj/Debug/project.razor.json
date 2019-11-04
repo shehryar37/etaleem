@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "e:\\Computer Science\\ApTech\\3rd Semester(HDSE-I)\\20181225 Project\\eTaleem\\eTaleem\\eTaleem.csproj",
+  "TargetFramework": "v4.7.2",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}

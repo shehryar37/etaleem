@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SmartTrafficDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblComplaint">
+    <Key>
+      <PropertyRef Name="ComplaintID" />
+    </Key>
+    <Property Name="ComplaintID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ComplaintTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ComplaintDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="ComplaintStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ComplaintDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblEmergency">
+    <Key>
+      <PropertyRef Name="EmergencyID" />
+    </Key>
+    <Property Name="EmergencyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmergencyTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="EmergencyLocation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EmergencyStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblFeedback">
+    <Key>
+      <PropertyRef Name="FeedbackID" />
+    </Key>
+    <Property Name="FeedbackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="FeedbackDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FeedbackDescription" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+    <Property Name="IsSeen" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblNotification">
+    <Key>
+      <PropertyRef Name="NotificationID" />
+    </Key>
+    <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationMessage" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NotificationDateTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NotificationType" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NotificationLink" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsSeen" Type="bit" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblSession">
+    <Key>
+      <PropertyRef Name="SessionID" />
+    </Key>
+    <Property Name="SessionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SessionBegin" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SessionEnd" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SessionLocation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserFName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserLName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserContact" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserProof" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserAddress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" Nullable="false" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+    <Property Name="UserRegDateTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserTypeID" Type="int" Nullable="false" />
+    <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblUserType">
+    <Key>
+      <PropertyRef Name="UserTypeID" />
+    </Key>
+    <Property Name="UserTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tblNotification_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+    <End Role="tblNotification" Type="Self.tblNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblNotification">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblUser_tblUserType">
+    <End Role="tblUserType" Type="Self.tblUserType" Multiplicity="1" />
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUserType">
+        <PropertyRef Name="UserTypeID" />
+      </Principal>
+      <Dependent Role="tblUser">
+        <PropertyRef Name="UserTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SmartTrafficDBModelStoreContainer">
+    <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblComplaint" EntityType="Self.tblComplaint" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblEmergency" EntityType="Self.tblEmergency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblFeedback" EntityType="Self.tblFeedback" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblNotification" EntityType="Self.tblNotification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSession" EntityType="Self.tblSession" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUserType" EntityType="Self.tblUserType" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblNotification_tblUser" Association="Self.FK_tblNotification_tblUser">
+      <End Role="tblUser" EntitySet="tblUser" />
+      <End Role="tblNotification" EntitySet="tblNotification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblUser_tblUserType" Association="Self.FK_tblUser_tblUserType">
+      <End Role="tblUserType" EntitySet="tblUserType" />
+      <End Role="tblUser" EntitySet="tblUser" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
